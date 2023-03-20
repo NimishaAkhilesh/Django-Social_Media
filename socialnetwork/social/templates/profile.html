@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+
+<body style="background-color: rgb(224, 235, 235); margin-top: 90px;">
+    <div class="container-fluid border border-3 shadow bg-white">
+        <div class="cover_section">
+            {% if request.user.profile.cover_pic%}
+            <img class="coverpic shadow" src="{{request.user.profile.cover_pic}}" alt="">
+            {% endif %}
+        </div>
+        <div class="profile_section d-flex justify-content-between">
+            {% if request.user.profile.profile_pic%}
+            <img class="propic" src="{{request.user.profile.profile_pic}}" alt="">
+            {% endif %}
+            <h1 class="onwername ">{{request.user.username}}</h1>
+            <div class=" me-5"> <a href="{% url 'editprofile' request.user.profile.id%}" class="btn btn-primary"><i
+                        class="fa-regular fa-pen-to-square"></i>Edit
+                    Profile</a></div>
+
+        </div>
+        <div class="row d-flex justify-content-evenly">
+            <div class="col-4 text-center mt-3 swich  ">
+
+                <button type="button" class="btn fs-5 " data-bs-toggle="modal" data-bs-target=""
+                    style="margin-left: 40vh;">
+                    <span><i class="fa-solid fa-book"></i></span>Time line
+                </button>
+
+
+
+            </div>
+            <div class="col-4 text-center mt-3 swich ">
+
+                <button type="button" class="btn fs-5  " data-bs-toggle="modal" data-bs-target="#followers"
+                    style="margin-left: 40vh;">
+                    <span><i class="fa-solid fa-users"></i></span> Following
+                    {{request.user.profile.followings.all.count}}
+                </button>
+
+                <!-- model  -->
+                <div class="modal fade" id="followers" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 " id="staticBackdropLabel"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="profilesection bg-white d-flex justify-content-center rounded-4">
+                                    <h4 class="text-secondary p-3">Followings</h4>
+                                    <div class="lines"></div>
+                                    {% for f in request.user.profile.my_friends%}
+                                    <div class="p-item p-2">
+                                        <div
+                                            class="peoples d-flex justify-content-between align-items-center border border-1 shadow  rounded-4 p-2">
+                                            <div class="d-flex">
+                                                <div>
+                                                    <img class="peopleimg mt-3" src="{{f.profile.profile_pic}}" alt="">
+                                                </div>
+                                                <div class="ms-3 ">
+                                                    <h6 class="mb-1 fw-bold friendname">{{f.username}}</h6>
+                                                    <h6 class="m-0 friendbio colr">{{f.profile.bio}}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="me-3">
+                                                <a href="{% url 'remove-friend' f.id%}" class="ms-5">
+                                                    <i class="fa-solid fa-x" style="color:rgba(11, 17, 11, 0.5) ;"></i>
+
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    {% endfor%}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-4 text-center mt-3  ">
+
+                    <button type="button" class="btn fs-5  " data-bs-toggle="modal" data-bs-target="#following"
+                        style="margin-left: 40vh;">
+                        <span><i class="fa-solid fa-user"></i></span> Followers {{request.user.profile.followers_count}}
+                    </button>
+
+                    <!-- model  -->
+                    <div class="modal fade" id="following" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5 " id="staticBackdropLabel"></h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="profilesection bg-white d-flex justify-content-center rounded-4">
+                                        <h4 class="text-secondary p-3">Following</h4>
+                                        <div class="lines"></div>
+                                        {% for f in request.user.profile.followers %}
+                                        <div class="p-item p-2">
+                                            <div
+                                                class="peoples d-flex justify-content-between align-items-center border border-1 shadow  rounded-4 p-2">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <img class="peopleimg mt-3" src="{{f.profile.profile_pic}}"
+                                                            alt="">
+                                                    </div>
+                                                    <div class="ms-3 ">
+                                                        <h6 class="mb-1 fw-bold friendname">{{f.username}}</h6>
+                                                        <h6 class="m-0 friendbio colr">{{f.profile.bio}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="me-3">
+                                                    <a href="" class="ms-5">
+                                                        <i class="fa-solid fa-x"
+                                                            style="color:rgba(11, 17, 11, 0.5) ;"></i>
+
+
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        {% endfor%}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid ">
+        <div class="row p-2 d-flex justify-content-evenly">
+            <div class="prof col-3 bg-white  border border-3 ">
+                <div class="ms-2">
+                    <h3 class="">About</h3>
+                    <p class=" o">{{request.user.profile.bio}}</p>
+                    <h4>Date Of Birth</h4>
+                    <p class="o">{{request.user.profile.dob}}</p>
+                    <h4>Place</h4>
+                    <p class="o">{{request.user.profile.place}}</p>
+                    <h4>Phone</h4>
+                    <p class="o">{{request.user.profile.phone}}</p>
+                    <h4>Gender</h4>
+                    <p class="o">{{request.user.profile.gender}}</p>
+                </div>
+            </div>
+
+            <!-- posts -->
+            <div class="all_posts col-5  ">
+                {%for post in mypost%}
+
+                <div class="mb-3">
+                    <div class="allpost mt-4 bg-white">
+                        <div class="d-flex p-3">
+                            <div class="ms-2">
+                                <img class="ownerpic" src="{{post.user.profile.profile_pic}}" alt="">
+                            </div>
+                            <div class="ms-3 d-flex  ">
+                                <div>
+                                    <h5 class="m-0">{{post.user}}</h5>
+                                    <p class="m-0">{{post.created_date}}</p>
+                                </div>
+
+                                <button type="button" class="btn  " data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop" style="margin-left: 40vh;">
+                                    <i class="fa-solid fa-ellipsis-vertical" style="font-size: 20px;"></i>
+                                </button>
+
+                                <!-- model  -->
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5 " id="staticBackdropLabel">Options</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div><a class="btn form-control btn-outline-danger" href="#">Delete
+                                                        Post</a></div>
+                                                <hr>
+                                                <div><a class="btn form-control btn-outline-info" href="#">Update
+                                                        Post</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="posttitle p-3">
+                            <h6>{{post.title}} </h6>
+                        </div>
+                        <div>
+                            <img class="postimg" src="{{post.image}}" alt="">
+                        </div>
+                        <div class="lines mt-2 mb-2"></div>
+                        <div class="d-flex">
+                            <div class="ms-3  d-flex  align-items-center">
+                                <p class="mt-3">{{post.liked_by.all.count}}</p>
+                                <a href="{% url 'like-add' post.id%}"><i
+                                        class="love fa-sharp fa-regular fa-heart ms-2"></i></a>
+                            </div>
+                            <div class="ms-3  d-flex  align-items-center">
+                                <i class="fa-regular fa-comment"></i>
+                                <div class="dropdown">
+                                    <a class="btn  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        {{post.comment_count}}comments
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        {% for c in post.get_comments %}
+                                        <li class="dropdown-item border border-3" style=" height: auto;">
+                                            <div class="d-flex">
+                                                <img class="commentdp" src="{{c.user.profile.profile_pic}}" alt="Avatar"
+                                                    class="commentuserdp " style="width:30px; height: 5vh;">
+                                                <h6 class="ms-3">{{c.user}}</h6>
+                                            </div>
+                                            <div class="mt-3 ">
+                                                <div class="row">
+
+                                                    <div class="col-12">
+                                                        <p>{{c.comment}}</p>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <form class="pb-3" action="{%url 'comment-add' post.id%}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-8"><input type="text" name="comment"
+                                        class="form-control  w3-margin-bottom"> </div>
+
+                                <div class="col-3"><button
+                                        class=" w3-margin-bottom btn btn-outline-dark ">comment</button></div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+
+            <!-- posts end -->
+
+
+            <!-- suggetion section -->
+            <div class="col-3  rightside">
+                <div class="profilesection bg-white d-flex justify-content-center rounded-4">
+                    <h4 class="text-secondary p-3">Suggestions</h4>
+                    <div class="lines"></div>
+                    {% for sg in request.user.profile.friend_request%}
+                    <div class="p-item p-2">
+                        <div
+                            class="peoples d-flex justify-content-between align-items-center border border-1 shadow  rounded-4 p-2">
+                            <div class="d-flex">
+                                <div>
+                                    <img class="peopleimg mt-3" src="{{sg.profile.profile_pic}}" alt="">
+                                </div>
+                                <div class="ms-3 ">
+                                    <h6 class="mb-1 fw-bold friendname">{{sg.username}}</h6>
+                                    <h6 class="m-0 friendbio colr">{{sg.profile.bio}}</h6>
+                                </div>
+                            </div>
+                            <div class="me-3">
+                                <a href="{% url 'follow' sg.id%}" class="ms-5"><i style="color:rgba(11, 17, 11, 0.5) ;"
+                                        class="fa-solid fa-plus"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {% endfor%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content%}

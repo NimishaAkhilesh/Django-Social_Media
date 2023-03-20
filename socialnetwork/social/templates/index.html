@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+
+
+</head>
+
+<body style="padding-top: 66px; background: rgb(230, 244, 230);
+background: linear-gradient(90deg, rgb(223, 227, 223) 0%, rgb(135, 212, 223) 0%, rgb(225, 172, 228) 100%);">
+
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-3 p-4 position-fixed  ">
+                <div class="profilesection d-flex justify-content-center bg-white shadow-lg rounded ">
+                    <img class="" src="" alt="">
+                    <img class="coverpic" src="{{request.user.profile.cover_pic.url}}" alt="">
+                    {% if request.user.profile.profile_pic %}
+                    <img src="{{ request.user.profile.profile_pic.url }}" class="propic w3-circle"
+                        style="height:106px;width:106px" alt="Avatar">
+                    {% else %}
+                    <img src="" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+                    {% endif %}
+                    <h3 class="mt-3">{{request.user}}</h3>
+                    <h6 class="bio mb-3 mt-2 ">{{ request.user.profile.bio }}</h6>
+                    <div class="line"></div>
+                    <h4 class="bio mt-3">Following</h4>
+                    <h4 class=" mt-2 mb-2"> {{request.user.profile.followings.all.count}}</h4>
+                    <div class="line"></div>
+                    <h4 class="bio mt-3">Followers</h4>
+                    <h4 class=" mt-2 mb-2">{{followers}}</h4>
+                    <div class="line"></div>
+                    <a class="profilebtn" href="{% url 'myprofile'%}">View Profile</a>
+                </div>
+            </div>
+            <div class="col-6 pt-4 centerpage">
+                <div class="center-section ">
+                    <div class="addpost bg-white border border-2 shadow-lg" style="height: 15vh;">
+                        <div class="createpost  d-flex align-items-center">
+                            <div class="p-3">
+                                <img class="postdp" src="{{ request.user.profile.profile_pic.url }}" alt="">
+                            </div>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">
+                               <i class="fa fa-pencil"></i> Add New Post
+                            </button>
+
+                            <!-- model  -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 " id="staticBackdropLabel">Add Post</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form d-flex justify-content-end p-4 ">
+                                                <form action="" method="POST" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    {{form.as_p}}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-outline-info"><i
+                                                    class="fa fa-pencil"></i>
+                                                 Post</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- allpost -->
+                    {% for post in posts %}
+                    <div class="allpost mt-4 bg-white shadow rounded">
+                        <div class="d-flex p-3 border-bottom border-2">
+                            <div class="ms-2">
+                                <img class="ownerpic" src="{{post.user.profile.profile_pic}}" alt="">
+                            </div>
+                            <div class="ms-3 ">
+                                <h5 class="m-0">{{post.user}}</h5>
+                                <p class="m-0 colr">{{post.created_date}}</p>
+
+                            </div>
+
+                        </div>
+                        <div class="posttitle p-3">
+                            <h6>{{post.title}} </h6>
+                        </div>
+                        <div>
+                            <img class="postimg" src="{{post.image}}" alt="">
+                        </div>
+                        <div class="lines mt-2 mb-2"></div>
+                        <div class="d-flex">
+                            <div class="ms-3  d-flex  align-items-center">
+                                <p class="mt-3">{{post.liked_by.all.count}}</p>
+                                <a href="{% url 'like-add' post.id%}"><i
+                                        class="love fa-sharp fa-regular fa-heart ms-2"></i></a>
+                            </div>
+                            <div class="ms-3  d-flex  align-items-center">
+                                <i class="fa-regular fa-comment"></i>
+                                <div class="dropdown">
+                                    <a class="btn  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        {{post.comment_count}} comments
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        {% for c in post.get_comments %}
+                                        <li class="dropdown-item">
+                                            <img src="{{c.user.profile.profile_pic}}" alt="Avatar"
+                                                class="commentuserdp w3-left w3-circle w3-margin-right w3-margin-bottom my-2 me-3"
+                                                style="width:40px; height: 5vh;">
+                                            {{c.comment}}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <form class="pb-3" action="{%url 'comment-add' post.id%}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-8"><input type="text" name="comment"
+                                        class="form-control  w3-margin-bottom"> </div>
+
+                                <div class="col-3"><button
+                                        class=" w3-margin-bottom btn btn-outline-dark ">comment</button></div>
+                            </div>
+
+                        </form>
+                    </div>
+                    {% endfor %}
+
+
+                    <!-- end -->
+
+                </div>
+            </div>
+            <div class="col-3 p-4 rightside">
+                <div class="profilesection bg-white d-flex justify-content-center rounded-4">
+                    <h4 class="text-secondary p-3">Suggestions</h4>
+                    <div class="lines"></div>
+                    {% for sg in request.user.profile.friend_request%}
+                    <div class="p-item p-2">
+                        <div class="peoples d-flex justify-content-between align-items-center border border-1 shadow  rounded-4 p-2">
+                            <div class="d-flex">
+                                <div>
+                                    <img class="peopleimg mt-3" src="{{sg.profile.profile_pic}}" alt="">
+                                </div>
+                                <div class="ms-3 ">
+                                    <h6 class="mb-1 fw-bold friendname">{{sg.username}}</h6>
+                                    <h6 class="m-0 friendbio colr">{{sg.profile.bio}}</h6>
+                                </div>
+                            </div>
+                            <div class="me-3">
+                                <a href="{% url 'follow' sg.id%}" class="ms-5"><i style="color:rgba(11, 17, 11, 0.5) ;"
+                                        class="fa-solid fa-plus"></i></a>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    {% endfor%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+{% endblock content %}

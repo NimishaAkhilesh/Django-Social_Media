@@ -1,0 +1,110 @@
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.coverpic{
+    width: 100%;
+    height: 40vh;
+}
+.propic{
+    width: 15%;
+    height: 30vh;
+    margin-left: 5%;
+    border-radius: 50%;
+    border: 5px solid rgb(227, 219, 219);
+}
+.profile_section{
+    margin-top: -8%;
+  
+
+}
+.swich{
+    border-right: 2px solid rgb(237, 233, 233);
+}
+.onwername{
+    margin-top: 10%;
+    margin-left: -53%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.o{
+   color: rgba(11, 11, 11, 0.6);
+}
+/* post */
+.postdp{
+    margin: 2%;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+  .ownerpic{
+    margin: 2%;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  .postimg{
+    padding: 4px;
+    width: 100%;
+    height: 50vh;
+  }
+  .love{
+    font-size: 20px;
+  }
+  .commentdp{
+    border-radius: 50%;
+  }
+  .bio{
+    color:rgba(11, 17, 11, 0.5);   
+}
+.line{
+    background-color:rgba(11, 17, 11, 0.5);
+    height: 2px;
+    width: 90%;
+}
+.colr{
+    color:rgba(11, 17, 11, 0.5);   
+    }
+
+.profilebtn{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    text-decoration: none;
+    color: red;
+    font-weight: bolder;
+}    
+.profilebtn:hover{
+    color: rgb(199, 35, 35);
+    
+}
+.peopleimg{
+    width:40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.peoples{
+    width: 100%;
+}
+.lines{
+    margin-top: 5px;
+    background-color:rgba(11, 17, 11, 0.3);
+    height: 2px;
+    width: 100%;
+}
+.p-item{
+    width: 100%;
+}
+.friendbio{
+    font-size: 14px;
+    font-weight: 600;
+  
+  }
+  .friendname{
+    letter-spacing:1px;
+  }
+  .profilesection{
+    flex-direction: column;
+    align-items: center;
+   
+  }  
+.prof{
+    height: auto;
+}

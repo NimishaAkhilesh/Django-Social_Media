@@ -1,0 +1,44 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar bg-white border border-2 shadow-lg ">
+    <div class="container">
+      <a class="navbar-brand fs-2 fw-bold me-4 text-info pb-2" href="#">SoBook</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link mt-1 " aria-current="page" href="{% url 'home'%}">Home</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link active ms-3 dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img style="width: 23%;height: 5vh; border-radius: 50%;" src="{{request.user.profile.profile_pic}}" alt="image">
+              <span class="usname ms-2 fs-5 fw-bolder">{{ request.user }}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if request.user.profile %}
+              <li><a class="dropdown-item" href="{% url 'myprofile'%}">View profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'editprofile' request.user.profile.id%}">Edit profile</a></li>
+
+              {% else %}
+              <li><a class="dropdown-item" href="{% url 'profile-add'%}">Add profile</a></li>
+              {% endif %}
+              <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
+            </ul>
+          
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login'%}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register'%}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
